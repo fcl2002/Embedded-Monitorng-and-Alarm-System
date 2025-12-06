@@ -2,8 +2,7 @@
 
 ## 1. Overview 
 
-This project was developed for the **PBL02 Embedded Systems** course at **UNIFEI**.  
-It implements an embedded monitoring and alarm system on the **LPC11Uxx** microcontroller, simulating a configurable smart sensor.
+This project was developed for the **PBL02 Embedded Systems** course at **UNIFEI**. It implements an embedded monitoring and alarm system on the **LPC11Uxx** microcontroller, simulating a configurable smart sensor.
 
 The system uses:
 - A **finite state machine** to navigate between configuration modes  
@@ -267,7 +266,7 @@ I also gained practical experience with **communication protocols and low-level 
 
 ## 👥 Team
 
-**Group 06 – PBL02 – UNIFEI**
+**Group 06 – PBLE02 – UNIFEI**
 
 | Role    | Name                    |
 |---------|-------------------------|
@@ -275,9 +274,8 @@ I also gained practical experience with **communication protocols and low-level 
 | Student | [Ryan Felipe Ribeiro](https://www.linkedin.com/in/ryan-419155dd/) |
 | Project Supervisor | [Prof. Rodrigo Almeida](https://www.linkedin.com/in/rmaalmeida/) |
 
----
 
-**Course**: PBL02 - Embedded Systems
+**Course**: PBLE02 - Embedded Systems
 **Institution**: UNIFEI - Universidade Federal de Itajubá
 **Year**: 2025
 
