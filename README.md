@@ -1,6 +1,6 @@
 # PBL02 - Embedded Monitoring and Alarm System (Finite State Machine)
 
-## 📋 Overview 
+## 1. Overview 
 
 This project was developed for the **PBL02 Embedded Systems** course at **UNIFEI**.  
 It implements an embedded monitoring and alarm system on the **LPC11Uxx** microcontroller, simulating a configurable smart sensor.
@@ -12,10 +12,14 @@ The system uses:
 - An **RTC** for timestamped alarms  
 - A **multilingual interface** (Portuguese/English)
 
-## 🎥 Demo
+---
+
+## 2. Demo
 [🎬 Watch the project demo](https://youtu.be/uE-_c5lZllQ)
 
-## 🎯 Project Goals
+--- 
+
+## 3. Project Goals
 
 - Implement a robust finite state machine for an embedded system  
 - Create a configurable alarm system with minimum and maximum thresholds  
@@ -24,15 +28,17 @@ The system uses:
 - Integrate an RTC (Real Time Clock) for time-based features  
 - Provide a bilingual interface (Portuguese/English)
 
-## 🔧 Hardware
+---
 
-### Microcontroller
+## 4. Hardware
+
+### 4.1 Microcontroller
 
 - **LPC11Uxx** (ARM Cortex-M0)  
 - 48 MHz clock  
 - I2C, UART, ADC, GPIO
 
-### Peripherals
+### 4.2 Peripherals
 
 - **16x2 LCD** (4-bit interface)  
 - **RTC MCP7940** (I2C)  
@@ -40,7 +46,7 @@ The system uses:
 - **4 Status LEDs**  
 - **UART** at 9600 baud
 
-### 🔌 I/O Summary
+### 4.3 I/O Summary
 
 | Category             | Signal / Group        | MCU Pins                          | Direction      | Notes                              |
 |----------------------|-----------------------|-----------------------------------|----------------|------------------------------------|
@@ -50,7 +56,7 @@ The system uses:
 | I²C (RTC)            | SDA, SCL              | PIO0_5, PIO0_4                    | Bidirectional  | Communication with MCP7940 RTC    |
 | Serial (UART)        | TX, RX                | (Configured UART pins on LPC11Uxx)| TX/RX          | External sensor value monitoring  |
 
-### 📍 Detailed Pinout
+### 4.4 Detailed Pinout
 
 ```text
 LEDs (Outputs)
@@ -82,9 +88,11 @@ UART – Serial Interface
 - TX, RX: configured according to the LPC11Uxx UART pins (9600 baud)
 ```
 
-## 🏗️ System Architecture
+---
 
-### Finite State Machine
+## 5. System Architecture
+
+### 5.1. Finite State Machine
 
 The system is organized as a finite state machine with four main states:
 
@@ -95,7 +103,7 @@ The system is organized as a finite state machine with four main states:
 
 ![State Machine Diagram](diagram.svg)
 
-### System Events
+### 5.2 System Events
 
 ```c
 enum {
@@ -108,9 +116,11 @@ enum {
 };
 ```
 
-## 📁 Code Estructure 
+---
 
-### Main Modules
+## 6. Code Estructure 
+
+### 6.1 Main Modules
 
 ```
 src/
@@ -130,11 +140,11 @@ src/
 └── utils.c/h           // Utility functions
 ```
 
-### Design Choices
+### 6.2 Design Choices
 
 From the beginning of the project, we defined a **modular software architecture** as a design directive, separating the system into dedicated modules for the state machine, event handling, UI and hardware drivers (LCD, RTC, UART, GPIO). This structure improves maintainability and readability, allows reuse of drivers in future embedded projects, and makes it easier to adapt the application to other microcontrollers with minimal changes.
 
-### Implemented Abstractions
+### 6.3 Implemented Abstractions
 
 1. **I/O Abstraction Layer** – Unified interface for GPIO pins and peripherals  
 2. **Event System** – Asynchronous button event handling with software debounce  
@@ -142,9 +152,11 @@ From the beginning of the project, we defined a **modular software architecture*
 4. **User Interface Layer** – LCD screens and messages with multi-language support (PT/EN)  
 5. **Communication Drivers** – Modular drivers for I2C (RTC), UART (serial input) and LCD  
 
-## 🔄 System Behavior
+---
 
-### Main Flow
+## 7. System Behavior
+
+### 7.1 Main Flow
 
 1. **Initialization** – The system starts in the *Time* configuration state.  
 2. **Navigation** – The user navigates between states using the CONFIRM button.  
@@ -152,7 +164,7 @@ From the beginning of the project, we defined a **modular software architecture*
 4. **Monitoring** – The system continuously reads sensor values via UART.  
 5. **Alarm Handling** – Incoming values are compared against the configured thresholds.
 
-### Alarm System
+### 7.2 Alarm System
 
 The system monitors values received over UART and compares them against the configured thresholds:
 
@@ -167,31 +179,33 @@ WARNING - Value [value] is outside the range [min, max]
 [timestamp]
 ```
 
-### User Interface
+### 7.3 User Interface
 
-#### Time State (STATE_TEMPO)
+#### 7.3.1 Time State (STATE_TEMPO)
 - **Display (line 1):** "Change time"
 - **Display (line 2):** HH:MM:SS
 - **Controls:** LEFT/RIGHT adjust minutes
 
-#### Language State (STATE_IDIOMA)
+#### 7.3.2 Language State (STATE_IDIOMA)
 - **Display (line 1):** "Change language"
 - **Display (line 2):** "Português" / "English"
 - **Controls:** LEFT/RIGHT switch language
 
-#### Min Threshold State (STATE_ALARME_MIN)
+#### 7.3.3 Min Threshold State (STATE_ALARME_MIN)
 - **Display (line 1):** "Min Threshold:"
 - **Display (line 2):** Numeric value
 - **Controls:** LEFT/RIGHT adjust minimum threshold
 
-#### Max Threshold State (STATE_ALARME_MAX)
+#### 7.3.4 Max Threshold State (STATE_ALARME_MAX)
 - **Display (line 1):** "Max Threshold:"
 - **Display (line 2):** Numeric value
 - **Controls:** LEFT/RIGHT adjust maximum threshold
 
-## 🛠️ Implemented Features
+---
 
-### ✅ Basic Features
+## 8. Implemented Features
+
+### 8.1 Basic Features
 - [x] Finite state machine with 4 main states
 - [x] 16x2 LCD user interface
 - [x] Button system with software debounce
@@ -199,7 +213,7 @@ WARNING - Value [value] is outside the range [min, max]
 - [x] Serial communication (9600 baud)
 - [x] RTC integration over I²C (MCP7940)
 
-### ✅ Advanced Features
+### 8.2 Advanced Features
 - [x] Multilingual system (PT/EN)
 - [x] Continuous serial monitoring
 - [x] Configurable alarm system (min/max thresholds)
@@ -208,7 +222,17 @@ WARNING - Value [value] is outside the range [min, max]
 - [x] BCD ↔ decimal conversions for the RTC
 - [x] Hardware abstraction layer
 
-### Serial Usage Example
+### 8.3 Future Improvements
+
+- [ ] Implement an advanced configuration menu  
+- [ ] Add more sensors (temperature, humidity, etc.)  
+- [ ] Implement event logging in the RTC SRAM  
+- [ ] Add Bluetooth/Wi-Fi communication  
+- [ ] Implement a simple user management system  
+- [ ] Add more languages  
+- [ ] Implement basic graphical elements on the LCD  
+
+### 8.4 Serial Usage Example
 
 ```text
 > 75
@@ -223,29 +247,23 @@ WARNING - Value 25 is outside the range [50, 100]
 16:55:30 04/07/2025
 ```
 
-## 🔮 Future Improvements
+---
 
-- [ ] Implement an advanced configuration menu  
-- [ ] Add more sensors (temperature, humidity, etc.)  
-- [ ] Implement event logging in the RTC SRAM  
-- [ ] Add Bluetooth/Wi-Fi communication  
-- [ ] Implement a simple user management system  
-- [ ] Add more languages  
-- [ ] Implement basic graphical elements on the LCD  
-
-
-## 📊 Project Highlights
+## 9. Project Highlights
 
 This project combines a **robust embedded software architecture** with a clean and modular design. The core logic is implemented as a well-structured finite state machine, supported by clear separation of responsibilities and efficient hardware abstraction layers. Together, these choices improve code readability, reuse and maintainability while integrating multiple peripherals such as LCD, buttons, LEDs, RTC and UART.
 
 On the user side, the system provides an **intuitive interface** with a 16x2 LCD, logical state navigation and visual feedback through LEDs. Advanced features include a bilingual interface (PT/EN), configurable alarm thresholds, timestamped warnings and continuous serial monitoring of external values. These elements make the project a complete example of how to design, implement and integrate a practical embedded monitoring and alarm system.
 
-## 🎓 Technical Learnings
+---
+
+## 10. Technical Learnings
 
 Through this project, I strengthened my understanding of **embedded software architecture**, designing a finite state machine with clear transitions and separating the system into well-defined modules. This modular approach, combined with hardware abstraction layers, improved code organization and made it easier to maintain and extend the application while keeping memory usage efficient on a resource-constrained microcontroller.
 
 I also gained practical experience with **communication protocols and low-level programming techniques**, implementing I2C communication with the MCP7940 RTC, UART for asynchronous serial data and GPIO control for buttons and LEDs. On the software side, I implemented button debounce in software using counters, numeric-to-string formatting for LCD output, a simple multi-language system (PT/EN) and BCD conversions for the RTC interface, consolidating both my C skills and my confidence in building complete embedded solutions from scratch.
 
+---
 
 ## 👥 Team
 
