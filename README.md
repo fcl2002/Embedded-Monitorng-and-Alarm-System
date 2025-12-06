@@ -1,210 +1,229 @@
-# PBL02 - Sistema de Monitoramento e Alarme com Máquina de Estados
+# PBL02 - Embedded Monitoring and Alarm System (Finite State Machine)
 
-## 📋 Visão Geral
+## 📋 Overview 
 
-Este projeto foi desenvolvido na disciplina de **PBL02** da UNIFEI e consiste em um sistema embarcado baseado no microcontrolador **LPC11Uxx** que simula um sensor inteligente com sistema de alarme configurável. O sistema utiliza uma máquina de estados para navegação entre diferentes modos de operação, interface LCD para interação com o usuário, e comunicação serial para monitoramento de valores externos.
+This project was developed for the **PBL02 Embedded Systems** course at **UNIFEI**.  
+It implements an embedded monitoring and alarm system on the **LPC11Uxx** microcontroller, simulating a configurable smart sensor.
 
-## 🎥 Demonstração
-[🎬 Assista ao vídeo demonstrativo do projeto](https://youtu.be/uE-_c5lZllQ)
+The system uses:
+- A **finite state machine** to navigate between configuration modes  
+- An **LCD** and buttons for user interaction  
+- **UART** for receiving external sensor values  
+- An **RTC** for timestamped alarms  
+- A **multilingual interface** (Portuguese/English)
 
-## 🎯 Objetivos do Projeto
+---
 
-- Implementar uma máquina de estados robusta para controle de sistema embarcado
-- Criar um sistema de alarme configurável com thresholds mínimo e máximo
-- Desenvolver interface de usuário intuitiva com LCD e botões
-- Implementar comunicação serial para recepção de dados de sensores
-- Integrar RTC (Real Time Clock) para controle temporal
-- Criar sistema multilíngue (Português/Inglês)
+## 🎥 Demo
+[🎬 Watch the project demo](https://youtu.be/uE-_c5lZllQ)
 
-## 🔧 Hardware Utilizado
+---
 
-### Microcontrolador
-- **LPC11Uxx** (ARM Cortex-M0)
-- Clock: 48MHz
-- Interface I2C, UART, ADC
+## 🎯 Project Goals
 
-### Periféricos
-- **LCD 16x2** (interface 4-bit)
-- **RTC MCP7940** (I2C)
-- **5 Botões** (UP, DOWN, LEFT, RIGHT, CONFIRM)
-- **4 LEDs** indicadores
-- **Comunicação Serial** (UART - 9600 baud)
+- Implement a robust finite state machine for an embedded system  
+- Create a configurable alarm system with minimum and maximum thresholds  
+- Develop an intuitive user interface using LCD and buttons  
+- Receive external sensor data via serial communication  
+- Integrate an RTC (Real Time Clock) for time-based features  
+- Provide a bilingual interface (Portuguese/English)
 
-### Pinagem
-```
-LEDs:
+---
+
+## 🔧 Hardware
+
+### Microcontroller
+
+- **LPC11Uxx** (ARM Cortex-M0)  
+- 48 MHz clock  
+- I2C, UART, ADC, GPIO
+
+### Peripherals
+
+- **16x2 LCD** (4-bit interface)  
+- **RTC MCP7940** (I2C)  
+- **5 Buttons** (UP, DOWN, LEFT, RIGHT, CONFIRM)  
+- **4 Status LEDs**  
+- **UART** at 9600 baud
+
+### 🔌 I/O Summary
+
+| Category             | Signal / Group        | MCU Pins                          | Direction      | Notes                              |
+|----------------------|-----------------------|-----------------------------------|----------------|------------------------------------|
+| Status LEDs          | LED0–LED3             | PIO2_9, PIO3_0, PIO2_0, PIO2_6    | Output         | Visual alarm / status indication  |
+| User Buttons         | UP, RIGHT, DOWN, LEFT, CONFIRM | PIO2_8, PIO2_1, PIO0_2, PIO1_8, PIO2_7 | Input          | Navigation and configuration      |
+| LCD Control/Data     | RS, E, D4–D7          | PIO1_1, PIO1_0, PIO0_11, PIO2_11, PIO1_10, PIO0_9 | Output | 16x2 character LCD (4-bit mode)   |
+| I²C (RTC)            | SDA, SCL              | PIO0_5, PIO0_4                    | Bidirectional  | Communication with MCP7940 RTC    |
+| Serial (UART)        | TX, RX                | (Configured UART pins on LPC11Uxx)| TX/RX          | External sensor value monitoring  |
+
+### 📍 Detailed Pinout
+
+```text
+LEDs (Outputs)
 - LED0: PIO2_9
 - LED1: PIO3_0
 - LED2: PIO2_0
 - LED3: PIO2_6
 
-Botões:
-- UP: PIO2_8
-- RIGHT: PIO2_1
-- DOWN: PIO0_2
-- LEFT: PIO1_8
+Buttons (Inputs)
+- UP:      PIO2_8
+- RIGHT:   PIO2_1
+- DOWN:    PIO0_2
+- LEFT:    PIO1_8
 - CONFIRM: PIO2_7
 
-LCD:
-- RS: PIO1_1
-- E: PIO1_0
-- D4-D7: PIO0_11, PIO2_11, PIO1_10, PIO0_9
+LCD 16x2 (4-bit mode, Outputs)
+- RS:  PIO1_1
+- E:   PIO1_0
+- D4:  PIO0_11
+- D5:  PIO2_11
+- D6:  PIO1_10
+- D7:  PIO0_9
 
-I2C:
+I²C – RTC MCP7940
 - SDA: PIO0_5
 - SCL: PIO0_4
+
+UART – Serial Interface
+- TX, RX: configured according to the LPC11Uxx UART pins (9600 baud)
 ```
 
-## 🏗️ Arquitetura do Sistema
+## 🏗️ System Architecture
 
-### Máquina de Estados
+### Finite State Machine
 
-O sistema implementa uma máquina de estados finita com 4 estados principais:
+The system is organized as a finite state machine with four main states:
 
-1. **STATE_TEMPO**: Configuração do horário atual
-2. **STATE_IDIOMA**: Seleção do idioma (Português/Inglês)
-3. **STATE_ALARME_MIN**: Configuração do threshold mínimo
-4. **STATE_ALARME_MAX**: Configuração do threshold máximo
+1. **STATE_TEMPO** – Current time configuration  
+2. **STATE_IDIOMA** – Language selection (Portuguese/English)  
+3. **STATE_ALARME_MIN** – Minimum alarm threshold configuration  
+4. **STATE_ALARME_MAX** – Maximum alarm threshold configuration  
 
-![Diagrama da Máquina de Estados](diagram.svg)
+![State Machine Diagram](diagram.svg)
 
-### Eventos do Sistema
+### System Events
 
 ```c
 enum {
-    EV_UP,      // Botão UP pressionado
-    EV_DOWN,    // Botão DOWN pressionado
-    EV_LEFT,    // Botão LEFT pressionado
-    EV_RIGHT,   // Botão RIGHT pressionado
-    EV_ENTER,   // Botão CONFIRM pressionado
-    EV_NOEVENT  // Nenhum evento
+    EV_UP,      // UP button pressed
+    EV_DOWN,    // DOWN button pressed
+    EV_LEFT,    // LEFT button pressed
+    EV_RIGHT,   // RIGHT button pressed
+    EV_ENTER,   // CONFIRM button pressed
+    EV_NOEVENT  // No event
 };
 ```
+---
 
-## 📁 Estrutura do Código
+## 📁 Code Estructure 
 
-### Módulos Principais
+### Main Modules
 
 ```
 src/
-├── main.c              # Programa principal e loop de monitoramento
-├── stateMachine.c/h    # Implementação da máquina de estados
-├── event.c/h           # Sistema de eventos e debounce
-├── var.c/h             # Gerenciamento de variáveis globais
-├── output.c/h          # Interface de saída para LCD
-├── buttons.c/h         # Controle dos botões
-├── lcd.c/h             # Driver do LCD
-├── leds.c/h            # Controle dos LEDs
-├── i2c.c/h             # Comunicação I2C
-├── rtc.c/h             # Interface com RTC MCP7940
-├── serial.c/h          # Comunicação serial UART
-├── adc.c/h             # Conversor analógico-digital
-├── io.c/h              # Abstração de I/O
-└── utils.c/h           # Funções utilitárias
+├── main.c              // Main program and monitoring loop
+├── stateMachine.c/h    // Finite state machine implementation
+├── event.c/h           // Event system and button debounce
+├── var.c/h             // Global variables and shared state
+├── output.c/h          // LCD output interface
+├── buttons.c/h         // Button handling
+├── lcd.c/h             // LCD driver
+├── leds.c/h            // LED control
+├── i2c.c/h             // I2C communication
+├── rtc.c/h             // RTC MCP7940 interface
+├── serial.c/h          // UART serial communication
+├── adc.c/h             // Analog-to-digital converter
+├── io.c/h              // I/O abstraction layer
+└── utils.c/h           // Utility functions
 ```
 
-### Abstrações Implementadas
+### Design Choices
 
-1. **Abstração de I/O**: Sistema unificado para controle de pinos
-2. **Sistema de Eventos**: Processamento assíncrono de eventos de botões
-3. **Gerenciamento de Estado**: Máquina de estados centralizada
-4. **Interface de Usuário**: Abstração para diferentes idiomas
-5. **Comunicação**: Drivers para I2C, UART e LCD
+From the beginning of the project, we defined a **modular software architecture** as a design directive, separating the system into dedicated modules for the state machine, event handling, UI and hardware drivers (LCD, RTC, UART, GPIO). This structure improves maintainability and readability, allows reuse of drivers in future embedded projects, and makes it easier to adapt the application to other microcontrollers with minimal changes.
 
-## 🔄 Funcionamento do Sistema
+---
 
-### Fluxo Principal
+### Implemented Abstractions
 
-1. **Inicialização**: Sistema inicia no estado TEMPO
-2. **Navegação**: Usuário navega entre estados usando botão CONFIRM
-3. **Configuração**: Botões LEFT/RIGHT ajustam valores em cada estado
-4. **Monitoramento**: Sistema monitora valores via serial continuamente
-5. **Alarme**: Compara valores recebidos com thresholds configurados
+1. **I/O Abstraction Layer** – Unified interface for GPIO pins and peripherals  
+2. **Event System** – Asynchronous button event handling with software debounce  
+3. **State Management** – Centralized finite state machine controlling the application flow  
+4. **User Interface Layer** – LCD screens and messages with multi-language support (PT/EN)  
+5. **Communication Drivers** – Modular drivers for I2C (RTC), UART (serial input) and LCD  
 
-### Sistema de Alarme
+---
 
-O sistema monitora valores recebidos via serial e compara com os thresholds configurados:
+## 🔄 System Behavior
 
-- **Valor < Threshold Mínimo**: Dispara alarme e acende LED0
-- **Valor > Threshold Máximo**: Dispara alarme e acende LED1
-- **Valor dentro do range**: Nenhum alarme
+### Main Flow
 
-Formato da mensagem de alarme:
-```
-WARNING - Value [valor] is outside the range [min, max]
+1. **Initialization** – The system starts in the *Time* configuration state.  
+2. **Navigation** – The user navigates between states using the CONFIRM button.  
+3. **Configuration** – LEFT/RIGHT buttons adjust time, language and alarm thresholds.  
+4. **Monitoring** – The system continuously reads sensor values via UART.  
+5. **Alarm Handling** – Incoming values are compared against the configured thresholds.
+
+### Alarm System
+
+The system monitors values received over UART and compares them against the configured thresholds:
+
+- **Value < Minimum threshold** → Alarm triggered, LED0 ON  
+- **Value > Maximum threshold** → Alarm triggered, LED1 ON  
+- **Value within range** → No alarm  
+
+Alarm message format:
+
+```text
+WARNING - Value [value] is outside the range [min, max]
 [timestamp]
 ```
 
-### Interface de Usuário
+### User Interface
 
-#### Estado TEMPO
-- **Display**: "Alterar tempo" / "Change time"
-- **Linha 2**: HH:MM:SS
-- **Controles**: LEFT/RIGHT ajustam minutos
+#### Time State (STATE_TEMPO)
+- **Display (line 1):** "Change time"
+- **Display (line 2):** HH:MM:SS
+- **Controls:** LEFT/RIGHT adjust minutes
 
-#### Estado IDIOMA
-- **Display**: "Alterar idioma" / "Change language"
-- **Linha 2**: "Português" / "English"
-- **Controles**: LEFT/RIGHT alternam idioma
+#### Language State (STATE_IDIOMA)
+- **Display (line 1):** "Change language"
+- **Display (line 2):** "Português" / "English"
+- **Controls:** LEFT/RIGHT switch language
 
-#### Estado ALARME_MIN
-- **Display**: "Limiar Minimo:" / "Min Threshold:"
-- **Linha 2**: Valor numérico
-- **Controles**: LEFT/RIGHT ajustam threshold mínimo
+#### Min Threshold State (STATE_ALARME_MIN)
+- **Display (line 1):** "Min Threshold:"
+- **Display (line 2):** Numeric value
+- **Controls:** LEFT/RIGHT adjust minimum threshold
 
-#### Estado ALARME_MAX
-- **Display**: "Limiar Maximo:" / "Max Threshold:"
-- **Linha 2**: Valor numérico
-- **Controles**: LEFT/RIGHT ajustam threshold máximo
+#### Max Threshold State (STATE_ALARME_MAX)
+- **Display (line 1):** "Max Threshold:"
+- **Display (line 2):** Numeric value
+- **Controls:** LEFT/RIGHT adjust maximum threshold
 
-## 🛠️ Funcionalidades Implementadas
+## 🛠️ Implemented Features
 
-### ✅ Funcionalidades Básicas
-- [x] Máquina de estados com 4 estados
-- [x] Interface LCD 16x2
-- [x] Sistema de botões com debounce
-- [x] LEDs indicadores
-- [x] Comunicação serial (9600 baud)
-- [x] RTC com MCP7940 via I2C
+### ✅ Basic Features
+- [x] Finite state machine with 4 main states
+- [x] 16x2 LCD user interface
+- [x] Button system with software debounce
+- [x] Status LEDs
+- [x] Serial communication (9600 baud)
+- [x] RTC integration over I²C (MCP7940)
 
-### ✅ Funcionalidades Avançadas
-- [x] Sistema multilíngue (PT/EN)
-- [x] Monitoramento contínuo via serial
-- [x] Sistema de alarme configurável
-- [x] Timestamp em alarmes
-- [x] Debounce de botões
-- [x] Conversão BCD ↔ Decimal para RTC
-- [x] Abstração de hardware
+### ✅ Advanced Features
+- [x] Multilingual system (PT/EN)
+- [x] Continuous serial monitoring
+- [x] Configurable alarm system (min/max thresholds)
+- [x] Timestamped alarms
+- [x] Button debounce
+- [x] BCD ↔ decimal conversions for the RTC
+- [x] Hardware abstraction layer
 
-## 🎓 Aprendizados Técnicos
+### Serial Usage Example
 
-### Programação em C para Microcontroladores
-- Manipulação direta de registradores
-- Configuração de periféricos (UART, I2C, GPIO)
-- Gestão de clock e timers
-- Implementação de debounce por software
-
-### Arquitetura de Software Embarcado
-- **Máquina de Estados**: Implementação robusta com transições bem definidas
-- **Modularização**: Separação clara de responsabilidades
-- **Abstração**: Camadas de abstração para hardware
-- **Gerenciamento de Memória**: Uso eficiente de memória estática
-
-### Protocolos de Comunicação
-- **I2C**: Comunicação com RTC MCP7940
-- **UART**: Comunicação serial assíncrona
-- **GPIO**: Controle de botões e LEDs
-
-### Técnicas de Programação
-- **Debounce**: Implementação por software com contador
-- **Formatação de Strings**: Conversão numérica para display
-- **Internacionalização**: Sistema multi-idioma simples
-- **Conversão BCD**: Para interface com RTC
-
-### Exemplo de Uso Serial
-```
+```text
 > 75
-[Sistema verifica se está entre min e max]
+[System checks whether the value is within [min, max]]
 
 > 150
 WARNING - Value 150 is outside the range [50, 100]
@@ -215,7 +234,7 @@ WARNING - Value 25 is outside the range [50, 100]
 16:55:30 04/07/2025
 ```
 
-## 📊 Pontos Altos do Projeto
+## 📊 Project Highlights
 
 ### 1. **Arquitetura Robusta**
 - Máquina de estados bem estruturada
