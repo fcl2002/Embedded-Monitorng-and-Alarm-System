@@ -1,0 +1,9 @@
+../src/serial.c:7:6:serialInit	8	static
+../src/serial.c:31:6:serialSendChar	16	static
+../src/serial.c:36:6:serialSendString	16	static
+../src/serial.c:43:5:serialReadChar	8	static
+../src/serial.c:71:6:serialSendInt	32	static
+../src/serial.c:94:13:serialSend2Digit	16	static
+../src/serial.c:101:6:serialSendTime	8	static
+../src/serial.c:111:6:serialSendDate	8	static
+../src/serial.c:119:6:serialSendDateTime	8	static

@@ -1,0 +1,7 @@
+../src/rtc.c:6:15:bcdToDec	16	static
+../src/rtc.c:10:15:decToBcd	24	static
+../src/rtc.c:14:6:mcp7940Init	24	static
+../src/rtc.c:26:15:mcpReadReg	16	static
+../src/rtc.c:30:6:mcpWriteReg	16	static
+../src/rtc.c:34:15:mcpReadSram	16	static
+../src/rtc.c:39:6:mcpWriteSram	16	static

@@ -1,0 +1,3 @@
+../src/buttons.c:19:6:buttonsInit	8	static
+../src/buttons.c:27:14:buttonsRead	8	static
+../src/buttons.c:31:6:buttonsDebounce	16	static

@@ -1,0 +1,7 @@
+../src/leds.c:11:6:ledsInit	8	static
+../src/leds.c:20:6:ledsOnAll	8	static
+../src/leds.c:27:6:ledsOffAll	8	static
+../src/leds.c:34:6:ledsToggle	16	static
+../src/leds.c:38:6:ledsToggleAll	8	static
+../src/leds.c:45:6:ledsSet	16	static
+../src/leds.c:49:6:ledsShow	16	static

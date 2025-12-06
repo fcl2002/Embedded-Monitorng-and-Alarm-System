@@ -1,0 +1,5 @@
+../src/i2c.c:7:6:i2cInit	8	static
+../src/i2c.c:25:6:i2cSend	24	static
+../src/i2c.c:45:6:i2cReceive	24	static
+../src/i2c.c:78:15:i2cReadReg	32	static
+../src/i2c.c:87:6:i2cWriteReg	32	static

@@ -1,0 +1,2 @@
+../src/event.c:6:6:eventInit	8	static
+../src/event.c:11:14:eventRead	16	static

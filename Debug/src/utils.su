@@ -1,0 +1,3 @@
+../src/utils.c:3:6:delay_ms	24	static
+../src/utils.c:10:5:strToInt	24	static
+../src/utils.c:19:6:intToStr	40	static

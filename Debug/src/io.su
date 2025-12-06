@@ -1,0 +1,5 @@
+../src/io.c:13:26:getPort	16	static
+../src/io.c:23:6:pinMode	32	static
+../src/io.c:37:6:digitalWrite	32	static
+../src/io.c:51:5:digitalRead	24	static
+../src/io.c:61:6:digitalToggle	32	static

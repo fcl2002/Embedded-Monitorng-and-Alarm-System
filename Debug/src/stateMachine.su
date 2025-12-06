@@ -1,0 +1,2 @@
+../src/stateMachine.c:9:6:smInit	16	static
+../src/stateMachine.c:15:6:smLoop	24	static
