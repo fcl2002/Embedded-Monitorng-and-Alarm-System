@@ -276,9 +276,9 @@ I also gained practical experience with <strong>communication protocols and low-
 
 ---
 
-## 👥 Team
+## 11. Team and Academic Context
 
-**Group 06 – PBLE02 – UNIFEI**
+**Project team - Group 06, PBLE02 – Embedded Systems (UNIFEI)**
 
 | Role    | Name                    |
 |---------|-------------------------|
@@ -286,9 +286,6 @@ I also gained practical experience with <strong>communication protocols and low-
 | Student | [Ryan Felipe Ribeiro](https://www.linkedin.com/in/ryan-419155dd/) |
 | Project Supervisor | [Prof. Rodrigo Almeida](https://www.linkedin.com/in/rmaalmeida/) |
 
-
-**Course**: PBLE02 - Embedded Systems
-**Institution**: UNIFEI - Universidade Federal de Itajubá
 **Year**: 2025
 
 ---
