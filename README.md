@@ -47,17 +47,7 @@ The system uses:
 - **4 Status LEDs**  
 - **UART** at 9600 baud
 
-### 4.3 I/O Summary
-
-| Category             | Signal / Group        | MCU Pins                          | Direction      | Notes                              |
-|----------------------|-----------------------|-----------------------------------|----------------|------------------------------------|
-| Status LEDs          | LED0–LED3             | PIO2_9, PIO3_0, PIO2_0, PIO2_6    | Output         | Visual alarm / status indication  |
-| User Buttons         | UP, RIGHT, DOWN, LEFT, CONFIRM | PIO2_8, PIO2_1, PIO0_2, PIO1_8, PIO2_7 | Input          | Navigation and configuration      |
-| LCD Control/Data     | RS, E, D4–D7          | PIO1_1, PIO1_0, PIO0_11, PIO2_11, PIO1_10, PIO0_9 | Output | 16x2 character LCD (4-bit mode)   |
-| I²C (RTC)            | SDA, SCL              | PIO0_5, PIO0_4                    | Bidirectional  | Communication with MCP7940 RTC    |
-| Serial (UART)        | TX, RX                | (Configured UART pins on LPC11Uxx)| TX/RX          | External sensor value monitoring  |
-
-### 4.4 Detailed Pinout
+### 4.3 Pinout
 
 ```text
 LEDs (Outputs)
