@@ -2,7 +2,9 @@
 
 ## 1. Overview 
 
+<p style="text-align: justify;">
 This project was developed for the **PBL02 Embedded Systems** course at **UNIFEI**. It implements an embedded monitoring and alarm system on the **LPC11Uxx** microcontroller, simulating a configurable smart sensor.
+</p>
 
 The system uses:
 - A **finite state machine** to navigate between configuration modes  
@@ -141,7 +143,9 @@ src/
 
 ### 6.2 Design Choices
 
+<p style="text-align: justify;">
 From the beginning of the project, we defined a **modular software architecture** as a design directive, separating the system into dedicated modules for the state machine, event handling, UI and hardware drivers (LCD, RTC, UART, GPIO). This structure improves maintainability and readability, allows reuse of drivers in future embedded projects, and makes it easier to adapt the application to other microcontrollers with minimal changes.
+</p>
 
 ### 6.3 Implemented Abstractions
 
@@ -250,17 +254,25 @@ WARNING - Value 25 is outside the range [50, 100]
 
 ## 9. Project Highlights
 
+<p style="text-align: justify;">
 This project combines a **robust embedded software architecture** with a clean and modular design. The core logic is implemented as a well-structured finite state machine, supported by clear separation of responsibilities and efficient hardware abstraction layers. Together, these choices improve code readability, reuse and maintainability while integrating multiple peripherals such as LCD, buttons, LEDs, RTC and UART.
+</p>
 
+<p style="text-align: justify;">
 On the user side, the system provides an **intuitive interface** with a 16x2 LCD, logical state navigation and visual feedback through LEDs. Advanced features include a bilingual interface (PT/EN), configurable alarm thresholds, timestamped warnings and continuous serial monitoring of external values. These elements make the project a complete example of how to design, implement and integrate a practical embedded monitoring and alarm system.
+</p>
 
 ---
 
 ## 10. Technical Learnings
 
-Through this project, I strengthened my understanding of **embedded software architecture**, designing a finite state machine with clear transitions and separating the system into well-defined modules. This modular approach, combined with hardware abstraction layers, improved code organization and made it easier to maintain and extend the application while keeping memory usage efficient on a resource-constrained microcontroller.
+<p style="text-align: justify;">
+Through this project, I strengthened my understanding of <strong>embedded software architecture</strong>, designing a finite state machine with clear transitions and separating the system into well-defined modules. This modular approach, combined with hardware abstraction layers, improved code organization and made it easier to maintain and extend the application while keeping memory usage efficient on a resource-constrained microcontroller.
+</p>
 
-I also gained practical experience with **communication protocols and low-level programming techniques**, implementing I2C communication with the MCP7940 RTC, UART for asynchronous serial data and GPIO control for buttons and LEDs. On the software side, I implemented button debounce in software using counters, numeric-to-string formatting for LCD output, a simple multi-language system (PT/EN) and BCD conversions for the RTC interface, consolidating both my C skills and my confidence in building complete embedded solutions from scratch.
+<p style="text-align: justify;">
+I also gained practical experience with <strong>communication protocols and low-level programming techniques</strong>, implementing I2C communication with the MCP7940 RTC, UART for asynchronous serial data and GPIO control for buttons and LEDs. On the software side, I implemented button debounce in software using counters, numeric-to-string formatting for LCD output, a simple multi-language system (PT/EN) and BCD conversions for the RTC interface, consolidating both my C skills and my confidence in building complete embedded solutions from scratch.
+</p>
 
 ---
 
