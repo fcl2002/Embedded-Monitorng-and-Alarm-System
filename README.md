@@ -286,8 +286,6 @@ I also gained practical experience with <strong>communication protocols and low-
 | Student | [Ryan Felipe Ribeiro](https://www.linkedin.com/in/ryan-419155dd/) |
 | Project Supervisor | [Prof. Rodrigo Almeida](https://www.linkedin.com/in/rmaalmeida/) |
 
-**Year**: 2025
-
 ---
 
 *This project integrates embedded systems, C programming and hardware development, demonstrating the practical application of theoretical concepts in a complete, functional system.*
