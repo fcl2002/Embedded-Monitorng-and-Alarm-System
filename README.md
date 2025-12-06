@@ -12,12 +12,8 @@ The system uses:
 - An **RTC** for timestamped alarms  
 - A **multilingual interface** (Portuguese/English)
 
----
-
 ## 🎥 Demo
 [🎬 Watch the project demo](https://youtu.be/uE-_c5lZllQ)
-
----
 
 ## 🎯 Project Goals
 
@@ -27,8 +23,6 @@ The system uses:
 - Receive external sensor data via serial communication  
 - Integrate an RTC (Real Time Clock) for time-based features  
 - Provide a bilingual interface (Portuguese/English)
-
----
 
 ## 🔧 Hardware
 
@@ -113,7 +107,6 @@ enum {
     EV_NOEVENT  // No event
 };
 ```
----
 
 ## 📁 Code Estructure 
 
@@ -141,8 +134,6 @@ src/
 
 From the beginning of the project, we defined a **modular software architecture** as a design directive, separating the system into dedicated modules for the state machine, event handling, UI and hardware drivers (LCD, RTC, UART, GPIO). This structure improves maintainability and readability, allows reuse of drivers in future embedded projects, and makes it easier to adapt the application to other microcontrollers with minimal changes.
 
----
-
 ### Implemented Abstractions
 
 1. **I/O Abstraction Layer** – Unified interface for GPIO pins and peripherals  
@@ -150,8 +141,6 @@ From the beginning of the project, we defined a **modular software architecture*
 3. **State Management** – Centralized finite state machine controlling the application flow  
 4. **User Interface Layer** – LCD screens and messages with multi-language support (PT/EN)  
 5. **Communication Drivers** – Modular drivers for I2C (RTC), UART (serial input) and LCD  
-
----
 
 ## 🔄 System Behavior
 
@@ -234,55 +223,46 @@ WARNING - Value 25 is outside the range [50, 100]
 16:55:30 04/07/2025
 ```
 
+## 🔮 Future Improvements
+
+- [ ] Implement an advanced configuration menu  
+- [ ] Add more sensors (temperature, humidity, etc.)  
+- [ ] Implement event logging in the RTC SRAM  
+- [ ] Add Bluetooth/Wi-Fi communication  
+- [ ] Implement a simple user management system  
+- [ ] Add more languages  
+- [ ] Implement basic graphical elements on the LCD  
+
+
 ## 📊 Project Highlights
 
-### 1. **Arquitetura Robusta**
-- Máquina de estados bem estruturada
-- Modularização clara e reutilizável
-- Abstração eficiente de hardware
+This project combines a **robust embedded software architecture** with a clean and modular design. The core logic is implemented as a well-structured finite state machine, supported by clear separation of responsibilities and efficient hardware abstraction layers. Together, these choices improve code readability, reuse and maintainability while integrating multiple peripherals such as LCD, buttons, LEDs, RTC and UART.
 
-### 2. **Interface Intuitiva**
-- LCD claro e informativo
-- Navegação lógica entre estados
-- Feedback visual com LEDs
+On the user side, the system provides an **intuitive interface** with a 16x2 LCD, logical state navigation and visual feedback through LEDs. Advanced features include a bilingual interface (PT/EN), configurable alarm thresholds, timestamped warnings and continuous serial monitoring of external values. These elements make the project a complete example of how to design, implement and integrate a practical embedded monitoring and alarm system.
 
-### 3. **Funcionalidades Avançadas**
-- Sistema multilíngue
-- Timestamp em alarmes
-- Thresholds configuráveis
-- Monitoramento contínuo
+## 🎓 Technical Learnings
 
-### 4. **Qualidade de Código**
-- Comentários descritivos
-- Estrutura modular
-- Tratamento de casos especiais
-- Debounce implementado
+Through this project, I strengthened my understanding of **embedded software architecture**, designing a finite state machine with clear transitions and separating the system into well-defined modules. This modular approach, combined with hardware abstraction layers, improved code organization and made it easier to maintain and extend the application while keeping memory usage efficient on a resource-constrained microcontroller.
 
-### 5. **Integração de Hardware**
-- Múltiplos periféricos integrados
-- Comunicação I2C e UART
-- Controle preciso de GPIO
+I also gained practical experience with **communication protocols and low-level programming techniques**, implementing I2C communication with the MCP7940 RTC, UART for asynchronous serial data and GPIO control for buttons and LEDs. On the software side, I implemented button debounce in software using counters, numeric-to-string formatting for LCD output, a simple multi-language system (PT/EN) and BCD conversions for the RTC interface, consolidating both my C skills and my confidence in building complete embedded solutions from scratch.
 
-## 🔮 Possíveis Melhorias
 
-- [ ] Implementar menu de configuração avançada
-- [ ] Adicionar mais sensores (temperatura, umidade)
-- [ ] Implementar log de eventos na SRAM do RTC
-- [ ] Adicionar comunicação Bluetooth/WiFi
-- [ ] Implementar sistema de usuários
-- [ ] Adicionar mais idiomas
-- [ ] Implementar gráficos no LCD
+## 👥 Team
 
-## 👥 Equipe
+**Group 06 – PBL02 – UNIFEI**
 
-**Grupo 06 - PBL02 - UNIFEI**
+| Role    | Name                    |
+|---------|-------------------------|
+| Student | [Fernando Costa Lasmar](https://www.linkedin.com/in/fernando-costa-lasmar/) |
+| Student | [Ryan Felipe Ribeiro](https://www.linkedin.com/in/ryan-419155dd/) |
+| Project Supervisor | [Prof. Rodrigo Almeida](https://www.linkedin.com/in/rmaalmeida/) |
 
 ---
 
-**Disciplina**: PBL02 - Sistemas Embarcados
-**Instituição**: UNIFEI - Universidade Federal de Itajubá
-**Ano**: 2025
+**Course**: PBL02 - Embedded Systems
+**Institution**: UNIFEI - Universidade Federal de Itajubá
+**Year**: 2025
 
 ---
 
-*Este projeto representa a integração de conhecimentos em sistemas embarcados, programação em C, e desenvolvimento de hardware, demonstrando a aplicação prática de conceitos teóricos em um sistema funcional completo.*
+*This project integrates embedded systems, C programming and hardware development, demonstrating the practical application of theoretical concepts in a complete, functional system.*
